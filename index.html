@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAVID STUDIO — Архитектурные макеты и визуализация</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-dark:#26221e;--bg-dark-2:#1c1916;--bg-dark-3:#211d19;
+  --bg-light:#f3f1ec;--card:#fff;--gold:#c3a15c;--gold-soft:#d6bd8a;
+  --ink:#1f1c18;--ink-soft:#6d675f;--line-dark:rgba(255,255,255,.14);--line-light:rgba(31,28,24,.12);
+  --white:#f6f4f0;--white-soft:#b9b2a7;--maxw:1360px;--pad:clamp(20px,5vw,64px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Manrope",system-ui,sans-serif;background:var(--bg-light);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+body.locked{overflow:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.08}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.eyebrow{font-family:"Montserrat",sans-serif;font-weight:600;font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+
+.btn{font-family:"Montserrat",sans-serif;font-weight:600;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;padding:14px 26px;border:1px solid var(--gold);color:var(--gold);background:transparent;cursor:pointer;transition:all .25s;display:inline-block;white-space:nowrap;text-align:center}
+.btn:hover{background:var(--gold);color:var(--bg-dark-2)}
+.btn--solid{background:var(--gold);color:var(--bg-dark-2)}
+.btn--solid:hover{background:var(--gold-soft);border-color:var(--gold-soft)}
+.btn--light{color:var(--white);border-color:rgba(255,255,255,.5)}
+.btn--light:hover{background:var(--gold);border-color:var(--gold);color:var(--bg-dark-2)}
+
+/* ШАПКА */
+.header{position:fixed;top:0;left:0;right:0;z-index:50;padding:16px var(--pad);display:flex;align-items:center;justify-content:space-between;gap:24px;transition:background .3s,padding .3s,border-color .3s;border-bottom:1px solid transparent}
+.header.scrolled{background:rgba(28,25,22,.94);backdrop-filter:blur(12px);padding:10px var(--pad);border-bottom:1px solid var(--line-dark)}
+.logo__img{height:84px;width:auto;display:block;transition:height .3s}
+.header.scrolled .logo__img{height:60px}
+.nav{display:flex;align-items:center;gap:clamp(18px,2.3vw,40px)}
+.nav a{font-family:"Montserrat",sans-serif;font-weight:600;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--white-soft);position:relative;padding:4px 0;transition:color .25s}
+.nav a::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:0;background:var(--gold);transition:width .25s}
+.nav a:hover,.nav a.active{color:var(--white)}
+.nav a:hover::after,.nav a.active::after{width:100%}
+.header .btn{padding:11px 20px}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:6px;z-index:60}
+.burger span{width:26px;height:2px;background:var(--white);transition:.3s;transform-origin:center}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;background:var(--bg-dark);color:var(--white);display:flex;align-items:center;overflow:hidden}
+.hero__bg{position:absolute;inset:0;z-index:0;background:url('images/hero-bg.png') no-repeat center right;background-size:cover}
+.hero__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg-dark) 0%,rgba(38,34,30,.92) 26%,rgba(38,34,30,.45) 50%,rgba(38,34,30,.05) 78%,rgba(38,34,30,.15) 100%)}
+.hero__inner{position:relative;z-index:2;width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+.hero__content{max-width:620px;padding-top:120px}
+.hero .eyebrow{margin-bottom:26px}
+.hero h1{font-size:clamp(3.2rem,8vw,6rem);font-weight:400;letter-spacing:.01em;margin:0 0 28px}
+.hero h1 .thick{font-weight:900}.hero h1 .thin{font-weight:300}
+.hero p{font-size:clamp(1rem,1.3vw,1.15rem);color:var(--white-soft);max-width:500px;margin-bottom:40px}
+.slider-nav{display:flex;align-items:center;gap:16px;margin-top:56px}
+.slider-nav button{font-family:"Montserrat",sans-serif;font-weight:600;font-size:.9rem;background:none;border:0;color:var(--white-soft);cursor:pointer;padding:6px 0;position:relative;transition:color .25s;letter-spacing:.05em}
+.slider-nav button.active{color:var(--white)}
+.slider-nav button.active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--gold)}
+.slider-nav .dash{width:34px;height:1px;background:var(--line-dark)}
+.scroll-cue{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);z-index:2;color:var(--gold);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+/* О НАС */
+.about{background:var(--bg-dark-3);color:var(--white);padding:clamp(70px,9vw,120px) var(--pad);border-top:1px solid var(--line-dark)}
+.about__inner{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(36px,6vw,90px);align-items:center}
+.about .eyebrow{margin-bottom:18px}
+.about h2{font-size:clamp(1.8rem,3.6vw,2.7rem);font-weight:800;letter-spacing:-.01em;margin-bottom:24px}
+.about p{color:var(--white-soft);font-size:1.05rem;max-width:540px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line-dark);border:1px solid var(--line-dark)}
+.stat{background:var(--bg-dark-3);padding:32px 26px}
+.stat b{display:block;font-family:"Montserrat",sans-serif;font-weight:800;font-size:2.4rem;color:var(--gold);line-height:1}
+.stat span{display:block;margin-top:10px;font-size:.86rem;color:var(--white-soft)}
+
+/* УСЛУГИ */
+.services{padding:clamp(70px,9vw,120px) var(--pad)}
+.services__head{max-width:var(--maxw);margin:0 auto 56px;text-align:center}
+.services__head .eyebrow{color:var(--ink-soft);display:block;margin-bottom:16px}
+.services h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.4vw,34px)}
+.card{display:flex;flex-direction:column;text-align:left;cursor:pointer;background:none;border:0;font:inherit;color:inherit;padding:0}
+.card__img{position:relative;aspect-ratio:4/3;margin-bottom:22px;overflow:hidden;background:#e6e2d9}
+.card__img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.card:hover .card__img img{transform:scale(1.05)}
+.card__badge{position:absolute;left:14px;bottom:14px;background:rgba(20,17,14,.72);color:var(--white);font-family:"Montserrat",sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.08em;padding:6px 12px;backdrop-filter:blur(4px)}
+.card h3{font-size:.94rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink);margin-bottom:14px}
+.card p{font-size:.95rem;color:var(--ink-soft);flex:1}
+.card__link{margin-top:22px;display:inline-flex;align-items:center;gap:12px;font-family:"Montserrat",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.card__link .line{width:34px;height:1px;background:var(--gold);position:relative;transition:width .3s}
+.card__link .line::after{content:"";position:absolute;right:0;top:-3px;width:7px;height:7px;border-top:1px solid var(--gold);border-right:1px solid var(--gold);transform:rotate(45deg)}
+.card:hover .card__link .line{width:52px}
+
+/* ПОРТФОЛИО */
+.portfolio{background:var(--bg-dark);color:var(--white);padding:clamp(70px,9vw,120px) var(--pad)}
+.portfolio__head{max-width:var(--maxw);margin:0 auto 48px;text-align:center}
+.portfolio__head .eyebrow{display:block;margin-bottom:16px}
+.portfolio h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800;letter-spacing:-.01em}
+.portfolio__sub{color:var(--white-soft);margin-top:14px}
+.gallery{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(16px,2vw,26px)}
+.tile{position:relative;overflow:hidden;aspect-ratio:16/9;cursor:pointer;border:0;padding:0;width:100%;background:#211d19}
+.tile img{width:100%;height:100%;object-fit:cover;transition:transform .7s}
+.tile:hover img{transform:scale(1.06)}
+.tile__cap{position:absolute;left:0;right:0;bottom:0;padding:22px 24px;text-align:left;color:var(--white);font-family:"Montserrat",sans-serif;font-weight:600;font-size:1.05rem;letter-spacing:.03em;background:linear-gradient(0deg,rgba(20,17,14,.9),transparent)}
+.tile__cap small{display:block;font-family:"Manrope",sans-serif;font-weight:400;font-size:.8rem;color:var(--white-soft);margin-top:5px;letter-spacing:0}
+.tile__view{position:absolute;top:16px;right:16px;background:rgba(20,17,14,.6);color:var(--white);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 12px;backdrop-filter:blur(4px);font-family:"Montserrat",sans-serif;font-weight:600}
+
+/* ПРОЦЕСС */
+.process{padding:clamp(70px,9vw,120px) var(--pad)}
+.process__head{max-width:var(--maxw);margin:0 auto 56px;text-align:center}
+.process__head .eyebrow{color:var(--ink-soft);display:block;margin-bottom:16px}
+.process h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.steps{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.4vw,34px)}
+.step{padding-top:26px;border-top:1px solid var(--line-light)}
+.step b{font-family:"Montserrat",sans-serif;font-weight:800;font-size:1.4rem;color:var(--gold)}
+.step h3{font-size:1.05rem;font-weight:700;color:var(--ink);margin:16px 0 12px}
+.step p{font-size:.94rem;color:var(--ink-soft)}
+
+/* КОНТАКТЫ */
+.contacts{background:var(--bg-dark);color:var(--white);padding:clamp(70px,9vw,120px) var(--pad)}
+.contacts__inner{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(40px,6vw,90px)}
+.contacts .eyebrow{display:block;margin-bottom:18px}
+.contacts h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:800;letter-spacing:-.01em;margin-bottom:26px}
+.contacts__info>p{color:var(--white-soft);margin-bottom:26px;max-width:400px}
+.contact-line{display:block;margin-bottom:16px}
+.contact-line span{display:block;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.contact-line a,.contact-line em{font-family:"Montserrat",sans-serif;font-weight:600;font-size:1.12rem;font-style:normal;color:var(--white);display:inline-block}
+.contact-line a{margin-right:18px}
+.form{display:grid;gap:18px}
+.form .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field label{display:block;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--white-soft);margin-bottom:8px}
+.field input,.field select,.field textarea{width:100%;background:transparent;border:1px solid var(--line-dark);color:var(--white);padding:14px 16px;font-family:"Manrope",sans-serif;font-size:.98rem;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold)}
+.field textarea{resize:vertical;min-height:110px}
+.field select option{background:var(--bg-dark)}
+.form .btn{justify-self:start;margin-top:6px}
+.form__ok{color:var(--gold-soft);font-family:"Montserrat",sans-serif;font-weight:600;font-size:.9rem;padding:14px 0;display:none}
+.form__ok.show{display:block}
+
+/* ПОДВАЛ */
+.footer{background:var(--bg-dark-2);color:var(--white-soft);padding:52px var(--pad);border-top:1px solid var(--line-dark)}
+.footer__inner{max-width:var(--maxw);margin:0 auto;display:flex;flex-wrap:wrap;gap:26px;align-items:center;justify-content:space-between}
+.footer .logo__img{height:56px}
+.footer small{font-size:.82rem}
+
+/* ЛАЙТБОКС-КАРУСЕЛЬ */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(15,13,11,.96);display:none;flex-direction:column;padding:clamp(16px,3vw,40px)}
+.lb.open{display:flex}
+.lb__top{display:flex;align-items:center;justify-content:space-between;color:var(--white);margin-bottom:16px}
+.lb__title{font-family:"Montserrat",sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:.04em}
+.lb__count{color:var(--white-soft);font-size:.85rem;font-family:"Montserrat",sans-serif}
+.lb__close{background:none;border:0;color:var(--white);cursor:pointer;padding:8px;font-size:1.6rem;line-height:1}
+.lb__stage{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.lb__slide{max-width:100%;max-height:100%;display:none}
+.lb__slide.show{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.lb__slide img{max-width:100%;max-height:78vh;object-fit:contain}
+.lb__slide .video{position:relative;width:min(100%,1100px);aspect-ratio:16/9}
+.lb__slide .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lb__nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);border:1px solid var(--line-dark);color:var(--white);width:52px;height:52px;border-radius:50%;cursor:pointer;font-size:1.5rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.lb__nav:hover{background:var(--gold);color:var(--bg-dark-2);border-color:var(--gold)}
+.lb__nav.prev{left:0}.lb__nav.next{right:0}
+.lb__empty{color:var(--white-soft);text-align:center;font-size:1.05rem;max-width:420px}
+.lb__thumbs{display:flex;gap:10px;overflow-x:auto;padding-top:16px;justify-content:center}
+.lb__thumbs button{flex:none;width:84px;height:56px;border:2px solid transparent;background:none;padding:0;cursor:pointer;opacity:.5;transition:opacity .2s,border-color .2s}
+.lb__thumbs button.active{opacity:1;border-color:var(--gold)}
+.lb__thumbs img{width:100%;height:100%;object-fit:cover}
+.lb__thumbs .vt{width:100%;height:100%;background:#000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:1024px){
+  .grid,.steps{grid-template-columns:repeat(2,1fr)}
+  .about__inner,.contacts__inner{grid-template-columns:1fr;gap:40px}
+}
+@media(max-width:820px){
+  .nav{position:fixed;inset:0 0 0 auto;width:min(80vw,320px);background:var(--bg-dark-2);flex-direction:column;justify-content:center;gap:28px;transform:translateX(100%);transition:transform .35s;padding:40px}
+  .nav.open{transform:none}
+  .header>.btn{display:none}
+  .burger{display:flex}
+  .logo__img{height:60px}
+  .header.scrolled .logo__img{height:48px}
+  .hero__bg::after{background:linear-gradient(180deg,rgba(38,34,30,.55) 0%,rgba(38,34,30,.8) 55%,var(--bg-dark) 100%)}
+  .hero__content{padding-top:130px}
+  .gallery{grid-template-columns:1fr}
+  .form .row{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .grid,.steps,.stats{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  .card__img img,.tile img{transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <a href="#top" class="logo" aria-label="David Studio"><img class="logo__img" src="images/logo.png" alt="David Studio"></a>
+  <nav class="nav" id="nav">
+    <a href="#about">О нас</a>
+    <a href="#services">Услуги</a>
+    <a href="#portfolio">Портфолио</a>
+    <a href="#process">Процесс</a>
+    <a href="#contacts">Контакты</a>
+  </nav>
+  <a href="#contacts" class="btn btn--light js-lead">Оставить заявку</a>
+  <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero__bg"></div>
+  <div class="hero__inner">
+    <div class="hero__content">
+      <span class="eyebrow">Архитектурные макеты и визуализация</span>
+      <h1><span class="thick">DAVID</span> <span class="thin">STUDIO</span></h1>
+      <p>Создаём архитектурные макеты, ландшафтные проекты и презентационные материалы для строительных компаний, автосалонов, девелоперов и архитектурных бюро.</p>
+      <a href="#contacts" class="btn btn--light js-lead">Обсудить проект</a>
+      <div class="slider-nav" aria-hidden="true">
+        <button class="active">01</button><span class="dash"></span>
+        <button>02</button><span class="dash"></span>
+        <button>03</button>
+      </div>
+    </div>
+  </div>
+  <a href="#about" class="scroll-cue" aria-label="Листать вниз"><svg width="30" height="16" viewBox="0 0 30 16" fill="none"><path d="M1 1l14 13L29 1" stroke="currentColor" stroke-width="1.5"/></svg></a>
+</section>
+
+<section class="about" id="about">
+  <div class="about__inner">
+    <div class="reveal">
+      <span class="eyebrow">О студии</span>
+      <h2>Изготавливаем архитектурные макеты с 2011 года</h2>
+      <p>David Studio — команда макетчиков, визуализаторов и дизайнеров из Астаны. Делаем физические макеты и презентационные материалы для строительных компаний, автосалонов, девелоперов и архитектурных бюро по всему Казахстану. Работаем от идеи до готового объекта и держим сроки.</p>
+    </div>
+    <div class="stats reveal">
+      <div class="stat"><b>2011</b><span>работаем с</span></div>
+      <div class="stat"><b>150+</b><span>реализованных проектов</span></div>
+      <div class="stat"><b>KZ</b><span>по всему Казахстану</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="services__head">
+    <span class="eyebrow">Наши услуги</span>
+    <h2>Комплексные решения для ваших проектов</h2>
+  </div>
+  <div class="grid">
+    <button class="card reveal" data-cat="maket">
+      <div class="card__img"><img src="images/service-1.jpg" alt="Архитектурные макеты"><span class="card__badge">Смотреть работы</span></div>
+      <h3>Архитектурные макеты</h3>
+      <p>Изготавливаем точные макеты любой сложности с вниманием к деталям и соблюдением сроков.</p>
+      <span class="card__link">Открыть галерею<span class="line"></span></span>
+    </button>
+    <button class="card reveal" data-cat="landshaft">
+      <div class="card__img"><img src="images/service-2.jpg" alt="Ландшафтный дизайн"><span class="card__badge">Смотреть работы</span></div>
+      <h3>Ландшафтный дизайн</h3>
+      <p>Проектируем комфортные и эстетичные общественные и частные пространства.</p>
+      <span class="card__link">Открыть галерею<span class="line"></span></span>
+    </button>
+    <button class="card reveal" data-cat="roliki">
+      <div class="card__img"><img src="images/service-3.jpg" alt="Презентационные ролики"><span class="card__badge">Видео</span></div>
+      <h3>Презентационные ролики</h3>
+      <p>Создаём эффектные видео для презентаций, продаж и участия в тендерах.</p>
+      <span class="card__link">Смотреть видео<span class="line"></span></span>
+    </button>
+    <button class="card reveal" data-cat="materialy">
+      <div class="card__img"><img src="images/service-4.jpg" alt="Презентационные материалы"><span class="card__badge">Смотреть работы</span></div>
+      <h3>Презентационные материалы</h3>
+      <p>Разрабатываем стильные буклеты, каталоги и маркетинговые материалы.</p>
+      <span class="card__link">Открыть галерею<span class="line"></span></span>
+    </button>
+  </div>
+</section>
+
+<section class="portfolio" id="portfolio">
+  <div class="portfolio__head">
+    <span class="eyebrow">Портфолио</span>
+    <h2>Избранные работы</h2>
+    <p class="portfolio__sub">Выберите направление — откроется галерея с прокруткой фотографий.</p>
+  </div>
+  <div class="gallery">
+    <button class="tile reveal" data-cat="maket"><img src="images/maket/01.jpg" alt="Архитектурные макеты"><span class="tile__view">Галерея</span><span class="tile__cap">Архитектурные макеты<small>Жилые комплексы, коммерция, автосалоны</small></span></button>
+    <button class="tile reveal" data-cat="landshaft"><img src="images/landshaft/01.jpg" alt="Ландшафтный дизайн"><span class="tile__view">Галерея</span><span class="tile__cap">Ландшафтные макеты<small>Парки и общественные пространства</small></span></button>
+    <button class="tile reveal" data-cat="roliki"><img src="images/roliki/01.jpg" alt="Презентационные ролики"><span class="tile__view">Видео</span><span class="tile__cap">Презентационные ролики<small>3D-визуализация и промо</small></span></button>
+    <button class="tile reveal" data-cat="materialy"><img src="images/materialy/01.jpg" alt="Презентационные материалы"><span class="tile__view">Галерея</span><span class="tile__cap">Презентационные материалы<small>Буклеты, каталоги, печать</small></span></button>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="process__head"><span class="eyebrow">Процесс</span><h2>Как мы работаем</h2></div>
+  <div class="steps">
+    <div class="step reveal"><b>01</b><h3>Бриф и замеры</h3><p>Обсуждаем задачу, сроки и бюджет, собираем исходные данные и чертежи.</p></div>
+    <div class="step reveal"><b>02</b><h3>Концепция</h3><p>Согласуем масштаб, материалы и состав презентационных материалов.</p></div>
+    <div class="step reveal"><b>03</b><h3>Производство</h3><p>Изготавливаем макет и визуализацию, показываем промежуточные этапы.</p></div>
+    <div class="step reveal"><b>04</b><h3>Сдача</h3><p>Доставляем готовый макет и файлы, помогаем с презентацией проекта.</p></div>
+  </div>
+</section>
+
+<section class="contacts" id="contacts">
+  <div class="contacts__inner">
+    <div class="contacts__info reveal">
+      <span class="eyebrow">Контакты</span>
+      <h2>Обсудим ваш проект</h2>
+      <p>Оставьте заявку — свяжемся в течение рабочего дня, обсудим задачу и сориентируем по срокам и стоимости.</p>
+      <span class="contact-line"><span>Телефон</span><a href="tel:+77022851769">+7 702 285 17 69</a><a href="tel:+77016027096">+7 701 602 70 96</a></span>
+      <span class="contact-line"><span>E-mail</span><a href="mailto:David_studio@bk.ru">David_studio@bk.ru</a></span>
+      <span class="contact-line"><span>Instagram</span><a href="https://instagram.com/David_studio_ast" target="_blank" rel="noopener">@David_studio_ast</a></span>
+      <span class="contact-line"><span>Студия</span><em>г. Астана, ул. Кунаева 35/1</em></span>
+    </div>
+    <form class="form reveal" id="leadForm" novalidate>
+      <div class="row">
+        <div class="field"><label for="fname">Имя</label><input id="fname" name="name" type="text" required placeholder="Как к вам обращаться"></div>
+        <div class="field"><label for="fphone">Телефон</label><input id="fphone" name="phone" type="tel" required placeholder="+7 (___) ___-__-__"></div>
+      </div>
+      <div class="field"><label for="ftype">Тип проекта</label>
+        <select id="ftype" name="type">
+          <option>Архитектурный макет</option><option>Ландшафтный дизайн</option>
+          <option>Презентационный ролик</option><option>Презентационные материалы</option><option>Другое</option>
+        </select>
+      </div>
+      <div class="field"><label for="fmsg">Сообщение</label><textarea id="fmsg" name="message" placeholder="Коротко о проекте, сроках и объёме"></textarea></div>
+      <button type="submit" class="btn btn--solid">Отправить заявку</button>
+      <p class="form__ok" id="formOk">Открываем WhatsApp — осталось нажать «Отправить» в переписке. Мы ответим в ближайшее время.</p>
+    </form>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <img class="logo__img" src="images/logo.png" alt="David Studio">
+    <small>© 2026 David Studio · Астана · Архитектурные макеты и визуализация</small>
+    <a href="#contacts" class="btn btn--light js-lead">Оставить заявку</a>
+  </div>
+</footer>
+
+<!-- ЛАЙТБОКС -->
+<div class="lb" id="lb" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="lb__top">
+    <span class="lb__title" id="lbTitle"></span>
+    <span class="lb__count" id="lbCount"></span>
+    <button class="lb__close" id="lbClose" aria-label="Закрыть">✕</button>
+  </div>
+  <div class="lb__stage" id="lbStage">
+    <button class="lb__nav prev" id="lbPrev" aria-label="Назад">‹</button>
+    <button class="lb__nav next" id="lbNext" aria-label="Вперёд">›</button>
+  </div>
+  <div class="lb__thumbs" id="lbThumbs"></div>
+</div>
+
+<script>
+/* ============================================================
+   КАТАЛОГ РАБОТ
+   Содержимое галерей хранится в файлах content/*.json и
+   редактируется через админ-панель Pages CMS (app.pagescms.org).
+   Ниже — запасные данные на случай локального открытия файла.
+   ============================================================ */
+const TITLES={maket:'Архитектурные макеты',landshaft:'Ландшафтный дизайн',roliki:'Презентационные ролики',materialy:'Презентационные материалы'};
+let CATALOG={
+  maket:{title:TITLES.maket,photos:['images/maket/01.jpg'],videos:[]},
+  landshaft:{title:TITLES.landshaft,photos:['images/landshaft/01.jpg'],videos:[]},
+  roliki:{title:TITLES.roliki,photos:['images/roliki/01.jpg'],videos:[]},
+  materialy:{title:TITLES.materialy,photos:['images/materialy/01.jpg'],videos:[]}
+};
+// извлекает ID ролика из ссылки YouTube (или принимает уже готовый ID)
+function ytId(v){
+  if(!v)return'';v=v.trim();
+  const m=v.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{6,})/);
+  return m?m[1]:v;
+}
+async function loadCatalog(){
+  await Promise.all(Object.keys(TITLES).map(async c=>{
+    try{
+      const r=await fetch('content/'+c+'.json',{cache:'no-store'});
+      if(!r.ok)return;
+      const d=await r.json();
+      CATALOG[c]={title:TITLES[c],photos:(d.photos||[]).filter(Boolean),videos:(d.videos||[]).filter(Boolean).map(ytId)};
+    }catch(e){/* локальное открытие — остаются запасные данные */}
+  }));
+  updateCounts();
+}
+function plural(n){return n%10===1&&n%100!==11?' работа':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?' работы':' работ');}
+function updateCounts(){
+  document.querySelectorAll('.tile[data-cat]').forEach(t=>{
+    const c=CATALOG[t.dataset.cat]||{};const n=(c.photos||[]).length+(c.videos||[]).length;
+    const el=t.querySelector('.tile__view');if(el)el.textContent=n?n+plural(n):'скоро';
+  });
+}
+loadCatalog();
+/* ============================================================ */
+
+const header=document.getElementById('header');
+addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+const burger=document.getElementById('burger'),nav=document.getElementById('nav');
+burger.addEventListener('click',()=>{const o=nav.classList.toggle('open');burger.classList.toggle('open',o);burger.setAttribute('aria-expanded',o)});
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');burger.classList.remove('open');burger.setAttribute('aria-expanded',false)}));
+
+document.querySelectorAll('.slider-nav button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.slider-nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+}));
+
+/* --- ЛАЙТБОКС --- */
+const lb=document.getElementById('lb'),lbStage=document.getElementById('lbStage'),lbThumbs=document.getElementById('lbThumbs'),
+      lbTitle=document.getElementById('lbTitle'),lbCount=document.getElementById('lbCount');
+let slides=[],cur=0;
+
+function buildSlides(cat){
+  const c=CATALOG[cat]||{};
+  const arr=[];
+  (c.videos||[]).forEach(id=>arr.push({type:'video',id}));
+  (c.photos||[]).forEach(src=>arr.push({type:'img',src}));
+  return {title:c.title||'',items:arr};
+}
+function openCat(cat){
+  const {title,items}=buildSlides(cat);
+  slides=items;cur=0;lbTitle.textContent=title;
+  // очистка
+  lbStage.querySelectorAll('.lb__slide,.lb__empty').forEach(n=>n.remove());
+  lbThumbs.innerHTML='';
+  if(!slides.length){
+    const e=document.createElement('div');e.className='lb__empty';
+    e.textContent='Работы скоро появятся. Добавьте фото или ссылку на видео в каталог.';
+    lbStage.appendChild(e);lbCount.textContent='';
+  }else{
+    slides.forEach((s,i)=>{
+      const d=document.createElement('div');d.className='lb__slide'+(i===0?' show':'');
+      if(s.type==='img'){d.innerHTML='<img src="'+s.src+'" alt="">';}
+      else{d.innerHTML='<div class="video"><iframe data-src="https://www.youtube.com/embed/'+s.id+'" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe></div>';}
+      lbStage.appendChild(d);
+      const t=document.createElement('button');t.className=(i===0?'active':'');
+      t.innerHTML=s.type==='img'?'<img src="'+s.src+'" alt="">':'<span class="vt">▶</span>';
+      t.addEventListener('click',()=>go(i));
+      lbThumbs.appendChild(t);
+    });
+    go(0);
+  }
+  lb.classList.add('open');lb.setAttribute('aria-hidden','false');document.body.classList.add('locked');
+}
+function go(i){
+  if(!slides.length)return;
+  cur=(i+slides.length)%slides.length;
+  const ss=lbStage.querySelectorAll('.lb__slide'),ts=lbThumbs.querySelectorAll('button');
+  ss.forEach((n,k)=>{
+    const on=k===cur;n.classList.toggle('show',on);
+    const f=n.querySelector('iframe');
+    if(f){ if(on){f.src=f.dataset.src;} else {f.src='';} } // грузим/останавливаем видео
+  });
+  ts.forEach((n,k)=>n.classList.toggle('active',k===cur));
+  lbCount.textContent=(cur+1)+' / '+slides.length;
+}
+function closeLb(){
+  lb.classList.remove('open');lb.setAttribute('aria-hidden','true');document.body.classList.remove('locked');
+  lbStage.querySelectorAll('iframe').forEach(f=>f.src='');
+}
+document.getElementById('lbPrev').addEventListener('click',()=>go(cur-1));
+document.getElementById('lbNext').addEventListener('click',()=>go(cur+1));
+document.getElementById('lbClose').addEventListener('click',closeLb);
+lb.addEventListener('click',e=>{if(e.target===lb)closeLb()});
+addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLb();if(e.key==='ArrowLeft')go(cur-1);if(e.key==='ArrowRight')go(cur+1)});
+document.querySelectorAll('[data-cat]').forEach(el=>el.addEventListener('click',()=>openCat(el.dataset.cat)));
+
+/* --- ФОРМА -> WHATSAPP --- */
+const CONTACT={ method:'whatsapp', whatsapp:'77022851769', telegram:'David_studio_ast' };
+const form=document.getElementById('leadForm'),ok=document.getElementById('formOk');
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=form.name.value.trim(),phone=form.phone.value.trim();
+  if(!name||!phone){[form.querySelector('#fname'),form.querySelector('#fphone')].forEach(i=>{if(!i.value.trim())i.style.borderColor='#c96b5c'});return;}
+  form.querySelectorAll('input').forEach(i=>i.style.borderColor='');
+  const text='Заявка с сайта David Studio\nИмя: '+name+'\nТелефон: '+phone+'\nТип проекта: '+form.type.value+(form.message.value.trim()?'\nСообщение: '+form.message.value.trim():'');
+  let url;
+  if(CONTACT.method==='telegram'){navigator.clipboard&&navigator.clipboard.writeText(text).catch(()=>{});url='https://t.me/'+CONTACT.telegram;}
+  else{url='https://wa.me/'+CONTACT.whatsapp+'?text='+encodeURIComponent(text);}
+  window.open(url,'_blank');
+  ok.classList.add('show');form.reset();
+  setTimeout(()=>ok.classList.remove('show'),8000);
+});
+['fname','fphone'].forEach(id=>document.getElementById(id).addEventListener('input',e=>e.target.style.borderColor=''));
+document.querySelectorAll('.js-lead').forEach(el=>el.addEventListener('click',()=>setTimeout(()=>document.getElementById('fname')?.focus({preventScroll:true}),650)));
+
+/* --- АКТИВНОЕ МЕНЮ + ПОЯВЛЕНИЕ --- */
+const links=[...document.querySelectorAll('.nav a')];
+const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const id=e.target.id;links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+id))}}),{rootMargin:'-45% 0px -50% 0px'});
+['about','services','portfolio','process','contacts'].forEach(id=>{const s=document.getElementById(id);if(s)spy.observe(s)});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*80)+'ms';io.observe(el)});
+</script>
+</body>
+</html>
