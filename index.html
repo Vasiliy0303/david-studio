@@ -50,7 +50,7 @@ h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.08}
 
 /* HERO */
 .hero{position:relative;min-height:100vh;background:var(--bg-dark);color:var(--white);display:flex;align-items:center;overflow:hidden}
-.hero__bg{position:absolute;inset:0;z-index:0;background:url('images/hero-bg.png') no-repeat center right;background-size:cover}
+.hero__bg{position:absolute;inset:0;z-index:0;background:url('hero-bg.png') no-repeat center right;background-size:cover}
 .hero__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg-dark) 0%,rgba(38,34,30,.92) 26%,rgba(38,34,30,.45) 50%,rgba(38,34,30,.05) 78%,rgba(38,34,30,.15) 100%)}
 .hero__inner{position:relative;z-index:2;width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
 .hero__content{max-width:620px;padding-top:120px}
@@ -202,7 +202,7 @@ h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.08}
 <body>
 
 <header class="header" id="header">
-  <a href="#top" class="logo" aria-label="David Studio"><img class="logo__img" src="images/logo.png" alt="David Studio"></a>
+  <a href="#top" class="logo" aria-label="David Studio"><img class="logo__img" src="logo.png" alt="David Studio"></a>
   <nav class="nav" id="nav">
     <a href="#about">О нас</a>
     <a href="#services">Услуги</a>
@@ -254,25 +254,25 @@ h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.08}
   </div>
   <div class="grid">
     <button class="card reveal" data-cat="maket">
-      <div class="card__img"><img src="images/service-1.jpg" alt="Архитектурные макеты"><span class="card__badge">Смотреть работы</span></div>
+      <div class="card__img"><img src="service-1.jpg" alt="Архитектурные макеты"><span class="card__badge">Смотреть работы</span></div>
       <h3>Архитектурные макеты</h3>
       <p>Изготавливаем точные макеты любой сложности с вниманием к деталям и соблюдением сроков.</p>
       <span class="card__link">Открыть галерею<span class="line"></span></span>
     </button>
     <button class="card reveal" data-cat="landshaft">
-      <div class="card__img"><img src="images/service-2.jpg" alt="Ландшафтный дизайн"><span class="card__badge">Смотреть работы</span></div>
+      <div class="card__img"><img src="service-2.jpg" alt="Ландшафтный дизайн"><span class="card__badge">Смотреть работы</span></div>
       <h3>Ландшафтный дизайн</h3>
       <p>Проектируем комфортные и эстетичные общественные и частные пространства.</p>
       <span class="card__link">Открыть галерею<span class="line"></span></span>
     </button>
     <button class="card reveal" data-cat="roliki">
-      <div class="card__img"><img src="images/service-3.jpg" alt="Презентационные ролики"><span class="card__badge">Видео</span></div>
+      <div class="card__img"><img src="service-3.jpg" alt="Презентационные ролики"><span class="card__badge">Видео</span></div>
       <h3>Презентационные ролики</h3>
       <p>Создаём эффектные видео для презентаций, продаж и участия в тендерах.</p>
       <span class="card__link">Смотреть видео<span class="line"></span></span>
     </button>
     <button class="card reveal" data-cat="materialy">
-      <div class="card__img"><img src="images/service-4.jpg" alt="Презентационные материалы"><span class="card__badge">Смотреть работы</span></div>
+      <div class="card__img"><img src="service-4.jpg" alt="Презентационные материалы"><span class="card__badge">Смотреть работы</span></div>
       <h3>Презентационные материалы</h3>
       <p>Разрабатываем стильные буклеты, каталоги и маркетинговые материалы.</p>
       <span class="card__link">Открыть галерею<span class="line"></span></span>
@@ -287,10 +287,10 @@ h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.08}
     <p class="portfolio__sub">Выберите направление — откроется галерея с прокруткой фотографий.</p>
   </div>
   <div class="gallery">
-    <button class="tile reveal" data-cat="maket"><img src="images/maket/01.jpg" alt="Архитектурные макеты"><span class="tile__view">Галерея</span><span class="tile__cap">Архитектурные макеты<small>Жилые комплексы, коммерция, автосалоны</small></span></button>
-    <button class="tile reveal" data-cat="landshaft"><img src="images/landshaft/01.jpg" alt="Ландшафтный дизайн"><span class="tile__view">Галерея</span><span class="tile__cap">Ландшафтные макеты<small>Парки и общественные пространства</small></span></button>
-    <button class="tile reveal" data-cat="roliki"><img src="images/roliki/01.jpg" alt="Презентационные ролики"><span class="tile__view">Видео</span><span class="tile__cap">Презентационные ролики<small>3D-визуализация и промо</small></span></button>
-    <button class="tile reveal" data-cat="materialy"><img src="images/materialy/01.jpg" alt="Презентационные материалы"><span class="tile__view">Галерея</span><span class="tile__cap">Презентационные материалы<small>Буклеты, каталоги, печать</small></span></button>
+    <button class="tile reveal" data-cat="maket"><img src="maket-01.jpg" alt="Архитектурные макеты"><span class="tile__view">Галерея</span><span class="tile__cap">Архитектурные макеты<small>Жилые комплексы, коммерция, автосалоны</small></span></button>
+    <button class="tile reveal" data-cat="landshaft"><img src="landshaft-01.jpg" alt="Ландшафтный дизайн"><span class="tile__view">Галерея</span><span class="tile__cap">Ландшафтные макеты<small>Парки и общественные пространства</small></span></button>
+    <button class="tile reveal" data-cat="roliki"><img src="roliki-01.jpg" alt="Презентационные ролики"><span class="tile__view">Видео</span><span class="tile__cap">Презентационные ролики<small>3D-визуализация и промо</small></span></button>
+    <button class="tile reveal" data-cat="materialy"><img src="materialy-01.jpg" alt="Презентационные материалы"><span class="tile__view">Галерея</span><span class="tile__cap">Презентационные материалы<small>Буклеты, каталоги, печать</small></span></button>
   </div>
 </section>
 
@@ -335,7 +335,7 @@ h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.08}
 
 <footer class="footer">
   <div class="footer__inner">
-    <img class="logo__img" src="images/logo.png" alt="David Studio">
+    <img class="logo__img" src="logo.png" alt="David Studio">
     <small>© 2026 David Studio · Астана · Архитектурные макеты и визуализация</small>
     <a href="#contacts" class="btn btn--light js-lead">Оставить заявку</a>
   </div>
@@ -358,16 +358,17 @@ h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.08}
 <script>
 /* ============================================================
    КАТАЛОГ РАБОТ
-   Содержимое галерей хранится в файлах content/*.json и
+   Содержимое галерей хранится в файлах maket.json, landshaft.json,
+   roliki.json, materialy.json и
    редактируется через админ-панель Pages CMS (app.pagescms.org).
    Ниже — запасные данные на случай локального открытия файла.
    ============================================================ */
 const TITLES={maket:'Архитектурные макеты',landshaft:'Ландшафтный дизайн',roliki:'Презентационные ролики',materialy:'Презентационные материалы'};
 let CATALOG={
-  maket:{title:TITLES.maket,photos:['images/maket/01.jpg'],videos:[]},
-  landshaft:{title:TITLES.landshaft,photos:['images/landshaft/01.jpg'],videos:[]},
-  roliki:{title:TITLES.roliki,photos:['images/roliki/01.jpg'],videos:[]},
-  materialy:{title:TITLES.materialy,photos:['images/materialy/01.jpg'],videos:[]}
+  maket:{title:TITLES.maket,photos:['maket-01.jpg'],videos:[]},
+  landshaft:{title:TITLES.landshaft,photos:['landshaft-01.jpg'],videos:[]},
+  roliki:{title:TITLES.roliki,photos:['roliki-01.jpg'],videos:[]},
+  materialy:{title:TITLES.materialy,photos:['materialy-01.jpg'],videos:[]}
 };
 // извлекает ID ролика из ссылки YouTube (или принимает уже готовый ID)
 function ytId(v){
@@ -378,7 +379,7 @@ function ytId(v){
 async function loadCatalog(){
   await Promise.all(Object.keys(TITLES).map(async c=>{
     try{
-      const r=await fetch('content/'+c+'.json',{cache:'no-store'});
+      const r=await fetch(c+'.json',{cache:'no-store'});
       if(!r.ok)return;
       const d=await r.json();
       CATALOG[c]={title:TITLES[c],photos:(d.photos||[]).filter(Boolean),videos:(d.videos||[]).filter(Boolean).map(ytId)};

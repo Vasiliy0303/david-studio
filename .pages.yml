@@ -1,13 +1,13 @@
 # Конфигурация админ-панели Pages CMS (app.pagescms.org)
 media:
-  input: images
-  output: /images
+  input: .
+  output: /
 
 content:
   - name: maket
     label: "Макеты — фотографии"
     type: file
-    path: content/maket.json
+    path: maket.json
     fields:
       - name: photos
         label: "Фотографии макетов"
@@ -17,7 +17,7 @@ content:
   - name: landshaft
     label: "Ландшафт — фотографии"
     type: file
-    path: content/landshaft.json
+    path: landshaft.json
     fields:
       - name: photos
         label: "Фотографии"
@@ -27,7 +27,7 @@ content:
   - name: roliki
     label: "Ролики — видео и превью"
     type: file
-    path: content/roliki.json
+    path: roliki.json
     fields:
       - name: videos
         label: "Ссылки на YouTube (по одной)"
@@ -41,7 +41,7 @@ content:
   - name: materialy
     label: "Материалы — фотографии"
     type: file
-    path: content/materialy.json
+    path: materialy.json
     fields:
       - name: photos
         label: "Фотографии"
