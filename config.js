@@ -1,4 +1,4 @@
 window.DAVID_CONFIG = {
-  SUPABASE_URL: "https://fhuigtmzxyciabzjwuem.supabase.com",
+  SUPABASE_URL: "https://fhuigtmzxyciabzjwuem.supabase.co",
   SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZodWlndG16eHljaWFiemp3dWVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0NDIyNTYsImV4cCI6MjA5OTAxODI1Nn0.GE5uZHah11j_BpsthtPvkVMZdKMWgjRMRpovR-BvHjU"
-}
+};
