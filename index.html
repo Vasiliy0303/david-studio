@@ -346,6 +346,7 @@ h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.08}
   <div class="lb__thumbs" id="lbThumbs"></div>
 </div>
 
+<script src="config.js"></script>
 <script>
 /* ============================================================
    ПОРТФОЛИО — ПРОЕКТЫ
@@ -365,14 +366,19 @@ function ytId(v){
   return m?m[1]:v;
 }
 async function loadProjects(){
+  const cfg=window.DAVID_CONFIG||{};
+  if(cfg.SUPABASE_URL&&cfg.SUPABASE_ANON_KEY){PROJECTS=[];renderProjects();return;} // база подключена — загрузит модуль ниже
   try{
     const r=await fetch('portfolio.json',{cache:'no-store'});
     if(r.ok){const d=await r.json();if(Array.isArray(d.projects)&&d.projects.length)PROJECTS=d.projects;}
   }catch(e){/* локальное открытие — остаются запасные данные */}
   renderProjects();
 }
+// вызывается модулем базы данных
+window.__setProjects=function(arr){PROJECTS=Array.isArray(arr)?arr:[];renderProjects();};
 function renderProjects(){
   const g=document.getElementById('projGrid');if(!g)return;g.innerHTML='';
+  if(!PROJECTS.length){g.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--white-soft)">Проекты скоро появятся.</p>';return;}
   PROJECTS.forEach((p,i)=>{
     const cover=p.cover||(p.photos&&p.photos[0])||'';
     const b=document.createElement('button');b.className='tile';b.dataset.idx=i;
@@ -479,6 +485,21 @@ const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const
 ['about','services','portfolio','process','contacts'].forEach(id=>{const s=document.getElementById(id);if(s)spy.observe(s)});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
 document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*80)+'ms';io.observe(el)});
+</script>
+
+<!-- Загрузка проектов из базы (если она подключена в config.js) -->
+<script type="module">
+const cfg=window.DAVID_CONFIG||{};
+if(cfg.SUPABASE_URL&&cfg.SUPABASE_ANON_KEY){
+  try{
+    const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
+    const sb=createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY);
+    const { data, error } = await sb.from('projects').select('*').order('sort',{ascending:true}).order('created_at',{ascending:true});
+    if(!error&&data){
+      window.__setProjects(data.map(r=>({name:r.name,description:r.description,cover:r.cover,photos:r.photos||[],videos:r.videos||[]})));
+    }
+  }catch(e){console.warn('Не удалось загрузить проекты из базы:',e);}
+}
 </script>
 </body>
 </html>

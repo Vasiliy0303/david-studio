@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Studio — Админка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#26221e;--bg2:#1c1916;--gold:#c3a15c;--gold2:#d6bd8a;--ink:#f6f4f0;--soft:#b9b2a7;--line:rgba(255,255,255,.14);--danger:#c96b5c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Manrope",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;min-height:100vh}
+h1,h2,h3{font-family:"Montserrat",sans-serif}
+a{color:var(--gold)}
+.wrap{max-width:1000px;margin:0 auto;padding:24px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 24px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+.top .logo{font-family:"Montserrat",sans-serif;font-weight:800;letter-spacing:.05em}
+.top .logo b{color:var(--gold)}
+.btn{font-family:"Montserrat",sans-serif;font-weight:600;font-size:.8rem;letter-spacing:.06em;padding:11px 20px;border:1px solid var(--gold);color:var(--gold);background:transparent;cursor:pointer;transition:.2s;border-radius:2px}
+.btn:hover{background:var(--gold);color:var(--bg2)}
+.btn--solid{background:var(--gold);color:var(--bg2)}
+.btn--solid:hover{background:var(--gold2)}
+.btn--ghost{border-color:var(--line);color:var(--soft)}
+.btn--ghost:hover{background:var(--line);color:var(--ink)}
+.btn--danger{border-color:var(--danger);color:var(--danger)}
+.btn--danger:hover{background:var(--danger);color:#fff}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+input,textarea{width:100%;background:#211d19;border:1px solid var(--line);color:var(--ink);padding:12px 14px;font-family:inherit;font-size:.98rem;border-radius:2px}
+input:focus,textarea:focus{outline:none;border-color:var(--gold)}
+textarea{resize:vertical;min-height:90px}
+label{display:block;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin:0 0 7px}
+.field{margin-bottom:18px}
+.note{color:var(--soft);font-size:.9rem}
+.hidden{display:none!important}
+
+/* вход */
+.login{max-width:380px;margin:12vh auto 0;text-align:center;padding:0 24px}
+.login .logo{font-size:1.6rem;font-family:"Montserrat",sans-serif;font-weight:800;margin-bottom:8px}
+.login .logo b{color:var(--gold)}
+.login p{color:var(--soft);margin-bottom:28px;font-size:.95rem}
+.login .field{text-align:left}
+.err{color:var(--danger);font-size:.9rem;margin-top:12px;min-height:1.2em}
+
+/* список проектов */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-top:8px}
+.pcard{background:#211d19;border:1px solid var(--line);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
+.pcard .cov{aspect-ratio:16/10;background:#161311;background-size:cover;background-position:center}
+.pcard .body{padding:14px;flex:1;display:flex;flex-direction:column;gap:6px}
+.pcard h3{font-size:1rem;font-weight:700}
+.pcard .d{font-size:.85rem;color:var(--soft);flex:1}
+.pcard .meta{font-size:.75rem;color:var(--soft)}
+.pcard .row{display:flex;gap:8px;padding:0 14px 14px}
+.pcard .row .btn{flex:1;padding:8px;font-size:.72rem;text-align:center}
+.head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:22px 0 6px}
+.head h2{font-size:1.3rem;font-weight:800}
+
+/* редактор */
+.editor{background:#211d19;border:1px solid var(--line);border-radius:4px;padding:22px;margin-top:8px}
+.thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.thumb{position:relative;width:96px;height:70px;border-radius:3px;overflow:hidden;border:1px solid var(--line)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb button{position:absolute;top:3px;right:3px;width:22px;height:22px;border:0;border-radius:50%;background:rgba(0,0,0,.7);color:#fff;cursor:pointer;font-size:.8rem;line-height:1}
+.cover-prev{width:160px;height:100px;border-radius:3px;border:1px solid var(--line);object-fit:cover;background:#161311;margin-bottom:10px;display:block}
+.actions{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.file-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--gold);color:var(--bg2);padding:12px 22px;border-radius:3px;font-weight:600;font-family:"Montserrat",sans-serif;font-size:.85rem;opacity:0;pointer-events:none;transition:opacity .3s}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- НЕ НАСТРОЕНО -->
+<div id="setup" class="login hidden">
+  <div class="logo">DAVID <b>STUDIO</b></div>
+  <p>Админка ещё не подключена к базе. Заполните <b>config.js</b> — вставьте адрес и ключ Supabase, затем обновите страницу.</p>
+  <a class="btn" href="index.html">На сайт</a>
+</div>
+
+<!-- ВХОД -->
+<div id="login" class="login hidden">
+  <div class="logo">DAVID <b>STUDIO</b></div>
+  <p>Вход в панель управления сайтом</p>
+  <div class="field"><label>E-mail</label><input id="email" type="email" placeholder="you@mail.com" autocomplete="username"></div>
+  <div class="field"><label>Пароль</label><input id="password" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+  <button class="btn btn--solid" id="loginBtn" style="width:100%">Войти</button>
+  <div class="err" id="loginErr"></div>
+</div>
+
+<!-- ПАНЕЛЬ -->
+<div id="panel" class="hidden">
+  <div class="top">
+    <span class="logo">DAVID <b>STUDIO</b> · панель</span>
+    <div style="display:flex;gap:10px">
+      <a class="btn btn--ghost" href="index.html" target="_blank">Открыть сайт</a>
+      <button class="btn btn--ghost" id="logoutBtn">Выйти</button>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="head">
+      <h2>Проекты портфолио</h2>
+      <button class="btn btn--solid" id="addBtn">+ Добавить проект</button>
+    </div>
+    <div id="list" class="grid"></div>
+    <p id="empty" class="note hidden" style="margin-top:16px">Пока нет ни одного проекта. Нажмите «Добавить проект».</p>
+
+    <!-- редактор -->
+    <div id="editor" class="editor hidden">
+      <h2 id="editorTitle" style="margin-bottom:18px">Новый проект</h2>
+      <div class="field"><label>Название проекта</label><input id="fName" placeholder="Например: Жилой комплекс «Панорама»"></div>
+      <div class="field"><label>Короткое описание</label><textarea id="fDesc" placeholder="1–2 предложения о проекте"></textarea></div>
+
+      <div class="field">
+        <label>Обложка (главное фото)</label>
+        <img id="coverPrev" class="cover-prev" alt="">
+        <div class="file-row"><input id="fCover" type="file" accept="image/*" style="max-width:280px"><span id="coverBusy" class="note hidden"><span class="spinner"></span>загрузка…</span></div>
+      </div>
+
+      <div class="field">
+        <label>Фотографии проекта</label>
+        <div class="thumbs" id="photoThumbs"></div>
+        <div class="file-row"><input id="fPhotos" type="file" accept="image/*" multiple style="max-width:280px"><span id="photosBusy" class="note hidden"><span class="spinner"></span>загрузка…</span></div>
+      </div>
+
+      <div class="field"><label>Видео с YouTube (по одной ссылке в строке, необязательно)</label><textarea id="fVideos" placeholder="https://youtu.be/xxxx"></textarea></div>
+
+      <div class="actions">
+        <button class="btn btn--solid" id="saveBtn">Сохранить</button>
+        <button class="btn btn--ghost" id="cancelBtn">Отмена</button>
+        <button class="btn btn--danger hidden" id="deleteBtn" style="margin-left:auto">Удалить проект</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script type="module">
+const cfg=window.DAVID_CONFIG||{};
+const $=id=>document.getElementById(id);
+const show=(el,on=true)=>$(el).classList.toggle('hidden',!on);
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600);}
+
+if(!cfg.SUPABASE_URL||!cfg.SUPABASE_ANON_KEY){ show('setup',true); }
+else {
+  const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
+  const sb=createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY);
+  const BUCKET='photos';
+
+  let editing=null;      // id редактируемого проекта или null
+  let photos=[];         // текущий список фото (url)
+  let cover='';          // url обложки
+
+  // --- авторизация ---
+  async function refresh(){
+    const { data:{ session } } = await sb.auth.getSession();
+    if(session){ show('login',false); show('panel',true); loadList(); }
+    else { show('panel',false); show('login',true); }
+  }
+  $('loginBtn').addEventListener('click',async()=>{
+    $('loginErr').textContent='';
+    const email=$('email').value.trim(), password=$('password').value;
+    if(!email||!password){$('loginErr').textContent='Введите e-mail и пароль';return;}
+    $('loginBtn').disabled=true;
+    const { error }=await sb.auth.signInWithPassword({email,password});
+    $('loginBtn').disabled=false;
+    if(error){$('loginErr').textContent='Не удалось войти. Проверьте e-mail и пароль.';return;}
+    refresh();
+  });
+  $('password').addEventListener('keydown',e=>{if(e.key==='Enter')$('loginBtn').click();});
+  $('logoutBtn').addEventListener('click',async()=>{await sb.auth.signOut();refresh();});
+
+  // --- список ---
+  async function loadList(){
+    const { data, error }=await sb.from('projects').select('*').order('sort',{ascending:true}).order('created_at',{ascending:true});
+    const list=$('list');list.innerHTML='';
+    if(error){list.innerHTML='<p class="note">Ошибка загрузки: '+error.message+'</p>';return;}
+    show('empty', !data || !data.length);
+    (data||[]).forEach(p=>{
+      const c=p.cover||(p.photos&&p.photos[0])||'';
+      const n=(p.photos?p.photos.length:0)+(p.videos?p.videos.length:0);
+      const card=document.createElement('div');card.className='pcard';
+      card.innerHTML='<div class="cov" style="background-image:url(\''+c+'\')"></div>'+
+        '<div class="body"><h3>'+(p.name||'Без названия')+'</h3>'+
+        '<div class="d">'+(p.description||'')+'</div>'+
+        '<div class="meta">'+n+' файл(ов)</div></div>'+
+        '<div class="row"><button class="btn btn--ghost eb">Изменить</button></div>';
+      card.querySelector('.eb').addEventListener('click',()=>openEditor(p));
+      list.appendChild(card);
+    });
+  }
+
+  // --- редактор ---
+  function openEditor(p){
+    editing=p?p.id:null;
+    $('editorTitle').textContent=p?'Редактирование проекта':'Новый проект';
+    $('fName').value=p?(p.name||''):'';
+    $('fDesc').value=p?(p.description||''):'';
+    $('fVideos').value=p&&p.videos?p.videos.join('\n'):'';
+    photos=p&&p.photos?[...p.photos]:[];
+    cover=p?(p.cover||''):'';
+    renderCover();renderPhotos();
+    show('deleteBtn', !!p);
+    show('editor',true);
+    $('editor').scrollIntoView({behavior:'smooth'});
+  }
+  function closeEditor(){show('editor',false);editing=null;photos=[];cover='';$('fCover').value='';$('fPhotos').value='';}
+  function renderCover(){const el=$('coverPrev');if(cover){el.src=cover;el.style.display='block';}else{el.removeAttribute('src');el.style.display='none';}}
+  function renderPhotos(){
+    const box=$('photoThumbs');box.innerHTML='';
+    photos.forEach((url,i)=>{
+      const d=document.createElement('div');d.className='thumb';
+      d.innerHTML='<img src="'+url+'" alt=""><button title="Убрать">✕</button>';
+      d.querySelector('button').addEventListener('click',()=>{photos.splice(i,1);renderPhotos();});
+      box.appendChild(d);
+    });
+  }
+  async function uploadFile(file){
+    const ext=(file.name.split('.').pop()||'jpg').toLowerCase();
+    const path=Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.'+ext;
+    const { error }=await sb.storage.from(BUCKET).upload(path,file,{cacheControl:'3600',upsert:false});
+    if(error)throw error;
+    return sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+  }
+  $('fCover').addEventListener('change',async e=>{
+    const f=e.target.files[0];if(!f)return;
+    show('coverBusy',true);
+    try{cover=await uploadFile(f);renderCover();}catch(err){toast('Ошибка загрузки обложки');}
+    show('coverBusy',false);e.target.value='';
+  });
+  $('fPhotos').addEventListener('change',async e=>{
+    const files=[...e.target.files];if(!files.length)return;
+    show('photosBusy',true);
+    for(const f of files){try{const u=await uploadFile(f);photos.push(u);renderPhotos();}catch(err){toast('Ошибка загрузки фото');}}
+    show('photosBusy',false);e.target.value='';
+  });
+  $('addBtn').addEventListener('click',()=>openEditor(null));
+  $('cancelBtn').addEventListener('click',closeEditor);
+  $('saveBtn').addEventListener('click',async()=>{
+    const name=$('fName').value.trim();
+    if(!name){toast('Введите название проекта');return;}
+    const videos=$('fVideos').value.split('\n').map(s=>s.trim()).filter(Boolean);
+    const payload={name,description:$('fDesc').value.trim(),cover:cover||(photos[0]||''),photos,videos};
+    $('saveBtn').disabled=true;
+    let error;
+    if(editing){({ error }=await sb.from('projects').update(payload).eq('id',editing));}
+    else{({ error }=await sb.from('projects').insert(payload));}
+    $('saveBtn').disabled=false;
+    if(error){toast('Ошибка сохранения');return;}
+    toast('Сохранено');closeEditor();loadList();
+  });
+  $('deleteBtn').addEventListener('click',async()=>{
+    if(!editing)return;
+    if(!confirm('Удалить этот проект? Действие необратимо.'))return;
+    const { error }=await sb.from('projects').delete().eq('id',editing);
+    if(error){toast('Ошибка удаления');return;}
+    toast('Проект удалён');closeEditor();loadList();
+  });
+
+  refresh();
+}
+</script>
+</body>
+</html>
