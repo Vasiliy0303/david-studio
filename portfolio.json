@@ -1,0 +1,18 @@
+{
+  "projects": [
+    {
+      "name": "Жилой комплекс «Панорама»",
+      "description": "Макет 1:150 с подсветкой для отдела продаж.",
+      "cover": "maket-01.jpg",
+      "photos": ["maket-01.jpg"],
+      "videos": []
+    },
+    {
+      "name": "Парковая зона",
+      "description": "Ландшафтный макет общественного пространства.",
+      "cover": "landshaft-01.jpg",
+      "photos": ["landshaft-01.jpg"],
+      "videos": []
+    }
+  ]
+}

@@ -1,49 +1,33 @@
 # Конфигурация админ-панели Pages CMS (app.pagescms.org)
 media:
-  input: .
-  output: /
+  input: media
+  output: /media
 
 content:
-  - name: maket
-    label: "Макеты — фотографии"
+  - name: portfolio
+    label: "Портфолио — проекты"
     type: file
-    path: maket.json
+    path: portfolio.json
     fields:
-      - name: photos
-        label: "Фотографии макетов"
-        type: image
+      - name: projects
+        label: "Проекты"
+        type: object
         list: true
-
-  - name: landshaft
-    label: "Ландшафт — фотографии"
-    type: file
-    path: landshaft.json
-    fields:
-      - name: photos
-        label: "Фотографии"
-        type: image
-        list: true
-
-  - name: roliki
-    label: "Ролики — видео и превью"
-    type: file
-    path: roliki.json
-    fields:
-      - name: videos
-        label: "Ссылки на YouTube (по одной)"
-        type: string
-        list: true
-      - name: photos
-        label: "Фото-превью (необязательно)"
-        type: image
-        list: true
-
-  - name: materialy
-    label: "Материалы — фотографии"
-    type: file
-    path: materialy.json
-    fields:
-      - name: photos
-        label: "Фотографии"
-        type: image
-        list: true
+        fields:
+          - name: name
+            label: "Название проекта"
+            type: string
+          - name: description
+            label: "Короткое описание"
+            type: text
+          - name: cover
+            label: "Обложка (главное фото)"
+            type: image
+          - name: photos
+            label: "Фотографии проекта"
+            type: image
+            list: true
+          - name: videos
+            label: "Видео с YouTube (ссылки, необязательно)"
+            type: string
+            list: true

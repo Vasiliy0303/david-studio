@@ -83,7 +83,7 @@ h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.08}
 .services__head .eyebrow{color:var(--ink-soft);display:block;margin-bottom:16px}
 .services h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800;color:var(--ink);letter-spacing:-.01em}
 .grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.4vw,34px)}
-.card{display:flex;flex-direction:column;text-align:left;cursor:pointer;background:none;border:0;font:inherit;color:inherit;padding:0}
+.card{display:flex;flex-direction:column;text-align:left;cursor:default;background:none;border:0;font:inherit;color:inherit;padding:0}
 .card__img{position:relative;aspect-ratio:4/3;margin-bottom:22px;overflow:hidden;background:#e6e2d9}
 .card__img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
 .card:hover .card__img img{transform:scale(1.05)}
@@ -253,45 +253,36 @@ h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.08}
     <h2>Комплексные решения для ваших проектов</h2>
   </div>
   <div class="grid">
-    <button class="card reveal" data-cat="maket">
-      <div class="card__img"><img src="service-1.jpg" alt="Архитектурные макеты"><span class="card__badge">Смотреть работы</span></div>
+    <div class="card card--static reveal">
+      <div class="card__img"><img src="service-1.jpg" alt="Архитектурные макеты"></div>
       <h3>Архитектурные макеты</h3>
       <p>Изготавливаем точные макеты любой сложности с вниманием к деталям и соблюдением сроков.</p>
-      <span class="card__link">Открыть галерею<span class="line"></span></span>
-    </button>
-    <button class="card reveal" data-cat="landshaft">
-      <div class="card__img"><img src="service-2.jpg" alt="Ландшафтный дизайн"><span class="card__badge">Смотреть работы</span></div>
+    </div>
+    <div class="card card--static reveal">
+      <div class="card__img"><img src="service-2.jpg" alt="Ландшафтный дизайн"></div>
       <h3>Ландшафтный дизайн</h3>
       <p>Проектируем комфортные и эстетичные общественные и частные пространства.</p>
-      <span class="card__link">Открыть галерею<span class="line"></span></span>
-    </button>
-    <button class="card reveal" data-cat="roliki">
-      <div class="card__img"><img src="service-3.jpg" alt="Презентационные ролики"><span class="card__badge">Видео</span></div>
+    </div>
+    <div class="card card--static reveal">
+      <div class="card__img"><img src="service-3.jpg" alt="Презентационные ролики"></div>
       <h3>Презентационные ролики</h3>
       <p>Создаём эффектные видео для презентаций, продаж и участия в тендерах.</p>
-      <span class="card__link">Смотреть видео<span class="line"></span></span>
-    </button>
-    <button class="card reveal" data-cat="materialy">
-      <div class="card__img"><img src="service-4.jpg" alt="Презентационные материалы"><span class="card__badge">Смотреть работы</span></div>
+    </div>
+    <div class="card card--static reveal">
+      <div class="card__img"><img src="service-4.jpg" alt="Презентационные материалы"></div>
       <h3>Презентационные материалы</h3>
       <p>Разрабатываем стильные буклеты, каталоги и маркетинговые материалы.</p>
-      <span class="card__link">Открыть галерею<span class="line"></span></span>
-    </button>
+    </div>
   </div>
 </section>
 
 <section class="portfolio" id="portfolio">
   <div class="portfolio__head">
     <span class="eyebrow">Портфолио</span>
-    <h2>Избранные работы</h2>
-    <p class="portfolio__sub">Выберите направление — откроется галерея с прокруткой фотографий.</p>
+    <h2>Наши проекты</h2>
+    <p class="portfolio__sub">Выберите проект — откроются его фотографии.</p>
   </div>
-  <div class="gallery">
-    <button class="tile reveal" data-cat="maket"><img src="maket-01.jpg" alt="Архитектурные макеты"><span class="tile__view">Галерея</span><span class="tile__cap">Архитектурные макеты<small>Жилые комплексы, коммерция, автосалоны</small></span></button>
-    <button class="tile reveal" data-cat="landshaft"><img src="landshaft-01.jpg" alt="Ландшафтный дизайн"><span class="tile__view">Галерея</span><span class="tile__cap">Ландшафтные макеты<small>Парки и общественные пространства</small></span></button>
-    <button class="tile reveal" data-cat="roliki"><img src="roliki-01.jpg" alt="Презентационные ролики"><span class="tile__view">Видео</span><span class="tile__cap">Презентационные ролики<small>3D-визуализация и промо</small></span></button>
-    <button class="tile reveal" data-cat="materialy"><img src="materialy-01.jpg" alt="Презентационные материалы"><span class="tile__view">Галерея</span><span class="tile__cap">Презентационные материалы<small>Буклеты, каталоги, печать</small></span></button>
-  </div>
+  <div class="gallery" id="projGrid"></div>
 </section>
 
 <section class="process" id="process">
@@ -357,44 +348,42 @@ h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.08}
 
 <script>
 /* ============================================================
-   КАТАЛОГ РАБОТ
-   Содержимое галерей хранится в файлах maket.json, landshaft.json,
-   roliki.json, materialy.json и
-   редактируется через админ-панель Pages CMS (app.pagescms.org).
+   ПОРТФОЛИО — ПРОЕКТЫ
+   Проекты хранятся в файле portfolio.json и редактируются
+   через админ-панель Pages CMS (app.pagescms.org).
+   У каждого проекта: название, описание, обложка, фото, видео.
    Ниже — запасные данные на случай локального открытия файла.
    ============================================================ */
-const TITLES={maket:'Архитектурные макеты',landshaft:'Ландшафтный дизайн',roliki:'Презентационные ролики',materialy:'Презентационные материалы'};
-let CATALOG={
-  maket:{title:TITLES.maket,photos:['maket-01.jpg'],videos:[]},
-  landshaft:{title:TITLES.landshaft,photos:['landshaft-01.jpg'],videos:[]},
-  roliki:{title:TITLES.roliki,photos:['roliki-01.jpg'],videos:[]},
-  materialy:{title:TITLES.materialy,photos:['materialy-01.jpg'],videos:[]}
-};
+let PROJECTS=[
+  {name:'Жилой комплекс «Панорама»',description:'Макет 1:150 с подсветкой для отдела продаж.',cover:'maket-01.jpg',photos:['maket-01.jpg'],videos:[]},
+  {name:'Парковая зона',description:'Ландшафтный макет общественного пространства.',cover:'landshaft-01.jpg',photos:['landshaft-01.jpg'],videos:[]}
+];
 // извлекает ID ролика из ссылки YouTube (или принимает уже готовый ID)
 function ytId(v){
   if(!v)return'';v=v.trim();
   const m=v.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{6,})/);
   return m?m[1]:v;
 }
-async function loadCatalog(){
-  await Promise.all(Object.keys(TITLES).map(async c=>{
-    try{
-      const r=await fetch(c+'.json',{cache:'no-store'});
-      if(!r.ok)return;
-      const d=await r.json();
-      CATALOG[c]={title:TITLES[c],photos:(d.photos||[]).filter(Boolean),videos:(d.videos||[]).filter(Boolean).map(ytId)};
-    }catch(e){/* локальное открытие — остаются запасные данные */}
-  }));
-  updateCounts();
+async function loadProjects(){
+  try{
+    const r=await fetch('portfolio.json',{cache:'no-store'});
+    if(r.ok){const d=await r.json();if(Array.isArray(d.projects)&&d.projects.length)PROJECTS=d.projects;}
+  }catch(e){/* локальное открытие — остаются запасные данные */}
+  renderProjects();
 }
-function plural(n){return n%10===1&&n%100!==11?' работа':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?' работы':' работ');}
-function updateCounts(){
-  document.querySelectorAll('.tile[data-cat]').forEach(t=>{
-    const c=CATALOG[t.dataset.cat]||{};const n=(c.photos||[]).length+(c.videos||[]).length;
-    const el=t.querySelector('.tile__view');if(el)el.textContent=n?n+plural(n):'скоро';
+function renderProjects(){
+  const g=document.getElementById('projGrid');if(!g)return;g.innerHTML='';
+  PROJECTS.forEach((p,i)=>{
+    const cover=p.cover||(p.photos&&p.photos[0])||'';
+    const b=document.createElement('button');b.className='tile';b.dataset.idx=i;
+    b.innerHTML='<img loading="lazy" src="'+cover+'" alt="'+(p.name||'')+'">'+
+      '<span class="tile__view">Смотреть</span>'+
+      '<span class="tile__cap">'+(p.name||'Проект')+(p.description?'<small>'+p.description+'</small>':'')+'</span>';
+    b.addEventListener('click',()=>openProject(i));
+    g.appendChild(b);
   });
 }
-loadCatalog();
+loadProjects();
 /* ============================================================ */
 
 const header=document.getElementById('header');
@@ -413,32 +402,30 @@ const lb=document.getElementById('lb'),lbStage=document.getElementById('lbStage'
       lbTitle=document.getElementById('lbTitle'),lbCount=document.getElementById('lbCount');
 let slides=[],cur=0;
 
-function buildSlides(cat){
-  const c=CATALOG[cat]||{};
+function buildSlides(p){
   const arr=[];
-  (c.videos||[]).forEach(id=>arr.push({type:'video',id}));
-  (c.photos||[]).forEach(src=>arr.push({type:'img',src}));
-  return {title:c.title||'',items:arr};
+  (p.videos||[]).forEach(v=>{const id=ytId(v);if(id)arr.push({type:'video',id});});
+  (p.photos||[]).forEach(src=>{if(src)arr.push({type:'img',src});});
+  return arr;
 }
-function openCat(cat){
-  const {title,items}=buildSlides(cat);
-  slides=items;cur=0;lbTitle.textContent=title;
-  // очистка
+function openProject(i){
+  const p=PROJECTS[i]||{};
+  slides=buildSlides(p);cur=0;lbTitle.textContent=p.name||'';
   lbStage.querySelectorAll('.lb__slide,.lb__empty').forEach(n=>n.remove());
   lbThumbs.innerHTML='';
   if(!slides.length){
     const e=document.createElement('div');e.className='lb__empty';
-    e.textContent='Работы скоро появятся. Добавьте фото или ссылку на видео в каталог.';
+    e.textContent='В этом проекте пока нет фотографий.';
     lbStage.appendChild(e);lbCount.textContent='';
   }else{
-    slides.forEach((s,i)=>{
-      const d=document.createElement('div');d.className='lb__slide'+(i===0?' show':'');
-      if(s.type==='img'){d.innerHTML='<img src="'+s.src+'" alt="">';}
+    slides.forEach((s,k)=>{
+      const d=document.createElement('div');d.className='lb__slide'+(k===0?' show':'');
+      if(s.type==='img'){d.innerHTML='<img loading="lazy" src="'+s.src+'" alt="">';}
       else{d.innerHTML='<div class="video"><iframe data-src="https://www.youtube.com/embed/'+s.id+'" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe></div>';}
       lbStage.appendChild(d);
-      const t=document.createElement('button');t.className=(i===0?'active':'');
-      t.innerHTML=s.type==='img'?'<img src="'+s.src+'" alt="">':'<span class="vt">▶</span>';
-      t.addEventListener('click',()=>go(i));
+      const t=document.createElement('button');t.className=(k===0?'active':'');
+      t.innerHTML=s.type==='img'?'<img loading="lazy" src="'+s.src+'" alt="">':'<span class="vt">▶</span>';
+      t.addEventListener('click',()=>go(k));
       lbThumbs.appendChild(t);
     });
     go(0);
@@ -466,7 +453,6 @@ document.getElementById('lbNext').addEventListener('click',()=>go(cur+1));
 document.getElementById('lbClose').addEventListener('click',closeLb);
 lb.addEventListener('click',e=>{if(e.target===lb)closeLb()});
 addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLb();if(e.key==='ArrowLeft')go(cur-1);if(e.key==='ArrowRight')go(cur+1)});
-document.querySelectorAll('[data-cat]').forEach(el=>el.addEventListener('click',()=>openCat(el.dataset.cat)));
 
 /* --- ФОРМА -> WHATSAPP --- */
 const CONTACT={ method:'whatsapp', whatsapp:'77022851769', telegram:'David_studio_ast' };
