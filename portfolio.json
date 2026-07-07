@@ -1,18 +1,25 @@
 {
   "projects": [
     {
-      "name": "Жилой комплекс «Панорама»",
+      "name": "Жилой комплекс \"GULDALA\"",
       "description": "Макет 1:150 с подсветкой для отдела продаж.",
-      "cover": "maket-01.jpg",
-      "photos": ["maket-01.jpg"],
-      "videos": []
+      "cover": "/media/photo_2023-04-16_23-28-41.jpg",
+      "photos": [
+        "/media/photo_2023-04-16_23-29-00.jpg",
+        "/media/photo_2023-04-16_23-28-58.jpg",
+        "/media/photo_2023-04-16_23-28-57 (2).jpg",
+        "/media/photo_2023-04-16_23-28-45.jpg",
+        "/media/photo_2023-04-16_23-28-43.jpg",
+        "/media/photo_2023-04-16_23-28-41-1.jpg"
+      ]
     },
     {
       "name": "Парковая зона",
       "description": "Ландшафтный макет общественного пространства.",
       "cover": "landshaft-01.jpg",
-      "photos": ["landshaft-01.jpg"],
-      "videos": []
+      "photos": [
+        "landshaft-01.jpg"
+      ]
     }
   ]
 }
